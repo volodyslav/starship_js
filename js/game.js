@@ -2,12 +2,10 @@ class Game{
     constructor(canvas, ctx){
        this.canvas = canvas;
        this.ctx = ctx;
-       this.height;
-       this.width;
-       this.baseHeight = 600;
+       this.height = this.canvas.height;
+       this.width = this.canvas.width;
        this.baseWidth = 800;
-       this.ratioHeight = this.height / this.baseHeight;
-       this.ratioWidth = this.width / this.baseWidth;
+       this.ratio = this.width / this.baseWidth;
        this.starsCollection = new Star(this); // create stars
        this.player = new Player(this); // create player
 
@@ -21,6 +19,7 @@ class Game{
     render(){
         this.starsCollection.draw();
         this.player.draw();
+        this.player.update();
     }
 
     resize(width, height){
@@ -28,10 +27,9 @@ class Game{
         this.canvas.height = height;
         this.height = this.canvas.height;
         this.width = this.canvas.width;
-        this.ratioHeight = height / this.baseHeight;
-        this.ratioWidth = width / this.baseWidth;
+        this.ratio = width / this.baseWidth;
         this.starsCollection.generateStars();
-        console.log(this.ratioHeight)
+        this.player.resize();
     }
 }
 
