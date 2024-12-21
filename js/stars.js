@@ -4,6 +4,15 @@ class Star{
         this.stars = [];
     }
 
+    movingStar(){
+        for (const star of this.stars){
+            star.y += 1;
+            if(star.y > this.game.height){
+                star.y = 0;
+            }
+        }
+    }
+
     generateStars(){
         this.stars = []; // Array of Gamestars 
         for(let i = 0; i < this.game.width / 4; i++){

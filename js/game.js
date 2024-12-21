@@ -8,18 +8,35 @@ class Game{
        this.ratio = this.width / this.baseWidth;
        this.starsCollection = new Star(this); // create stars
        this.player = new Player(this); // create player
-       console.log(this.canvas.width)
+       this.enemy1 = new Enemy1(this); // create enemy1
+       this.starsCollection.generateStars();
+       this.enemyCollection1 = []; // create enemy
+       this.addEnemy();
+       
        this.resize(window.innerWidth, window.innerHeight);
        window.addEventListener("resize", (e) => {
             this.resize(e.currentTarget.innerWidth, e.currentTarget.innerHeight);
        });
-       this.starsCollection.generateStars();
+       
+    }
+
+    addEnemy(){
+        for (let i = 0; i < 10; i++) {
+            const enemy = new Enemy1(this, -200 + i * 200);
+            this.enemyCollection1.push(enemy);
+        }
     }
 
     render(){
         this.starsCollection.draw();
         this.player.draw();
         this.player.update();
+        this.starsCollection.movingStar();
+        
+        this.enemyCollection1.forEach(enemy => {
+            enemy.draw();
+            enemy.update();
+        });
     }
 
     resize(width, height){
@@ -30,6 +47,7 @@ class Game{
         this.ratio = width / this.baseWidth;
         this.starsCollection.generateStars();
         this.player.resize();
+        this.enemyCollection1.forEach(enemy => enemy.resize());
     }
 }
 
