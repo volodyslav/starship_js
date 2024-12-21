@@ -8,7 +8,7 @@ class Game{
        this.ratio = this.width / this.baseWidth;
        this.starsCollection = new Star(this); // create stars
        this.player = new Player(this); // create player
-
+       console.log(this.canvas.width)
        this.resize(window.innerWidth, window.innerHeight);
        window.addEventListener("resize", (e) => {
             this.resize(e.currentTarget.innerWidth, e.currentTarget.innerHeight);
