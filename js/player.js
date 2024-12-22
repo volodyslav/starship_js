@@ -14,6 +14,7 @@ class Player{
         this.collisionY;
         this.collisionRadius;
         this.lasers = [];
+        this.playerHealth = 3;
 
         // Movements
         window.addEventListener("keydown", (e) => {
@@ -23,9 +24,10 @@ class Player{
             if((e.key === "ArrowLeft" || e.key.toLowerCase() === "a") && this.x > 0){
                 this.x -= this.speed;
             }
-            if(e.key === " "){
-                const laser = new Laser(this.game, this.x + this.width / 2, this.y, 10, 5, 5)
+            if(e.key === " " && this.game.currentLaser < this.game.maxLaser){
+                const laser = new PlayerLaser(this.game, this.x + this.width / 2, this.y, 2, 20, 5)
                 this.lasers.push(laser);
+                this.game.currentLaser++;
             }
         });
     }
@@ -34,7 +36,7 @@ class Player{
     resize(){
         this.height = this.game.ratio * this.spriteHeight;
         this.width = this.game.ratio * this.spriteWidth;
-        this.collisionRadius = 20 * this.game.ratio;
+        this.collisionRadius = 16 * this.game.ratio;
         this.lasers.forEach(laser => laser.resize());
     }
 
@@ -47,14 +49,7 @@ class Player{
     draw(){
         this.game.ctx.drawImage(this.starship, this.x, this.y, this.width, this.height);
         this.game.ctx.beginPath();
-        this.game.ctx.ellipse(
-            this.collisionX + this.collisionRadius * 0.02, 
-            this.collisionY - this.collisionRadius * 0.1, 
-            this.collisionRadius * 0.5,                     
-            this.collisionRadius * 1.1,             
-            0,                                            
-            0,                                            
-            Math.PI * 2                                   
+        this.game.ctx.arc(this.collisionX, this.collisionY, this.collisionRadius, 0, Math.PI * 2                                   
         );
         this.game.ctx.strokeStyle = "white";
         this.game.ctx.lineWidth = 5;
