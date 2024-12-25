@@ -1,5 +1,6 @@
 class Game{
     constructor(canvas, ctx){
+       this.startGame = true;
        this.canvas = canvas;
        this.ctx = ctx;
        this.height = this.canvas.height;
@@ -13,7 +14,6 @@ class Game{
        this.enemy1 = new Enemy1(this); // create enemy1
        this.starsCollection.generateStars();
        this.enemyCollection1 = []; // create enemy
-       this.enemy1Lasers = []; // create enemy laser
        this.addEnemy();
        
        this.resize(window.innerWidth, window.innerHeight);
@@ -39,18 +39,21 @@ class Game{
     }
 
     render(){
-        this.starsCollection.draw();
-        this.player.draw();
-        this.player.update();
-        this.starsCollection.movingStar();
-        
-        this.enemyCollection1.forEach(enemy => {
-            enemy.draw();
-            enemy.update();
-        });
-
-        this.drawLaserEnergy();
-        this.drawHealth();
+        if (this.startGame){
+            this.starsCollection.draw();
+            this.player.draw();
+            this.player.update();
+            this.starsCollection.movingStar();
+            this.enemyCollection1.forEach(enemy => {
+                enemy.draw();
+                enemy.update();
+            });
+    
+            this.drawLaserEnergy();
+            this.drawHealth();
+        }else{
+            this.gameOver();
+        }
     }
 
     drawLaserEnergy(){
@@ -84,12 +87,20 @@ class Game{
         this.player.resize();
         this.enemyCollection1.forEach(enemy => enemy.resize());
     }
+
+    gameOver(){
+        this.startGame = false;
+        this.ctx.fillStyle = "black";
+        this.ctx.fillRect(0, 0, this.width, this.height);
+        this.ctx.fillStyle = "red";
+        this.ctx.font = "50px Arial";
+        this.ctx.fillText("Game Over", this.width / 2 - 150, this.height / 2);
+    }
 }
 
 window.addEventListener("load", () => {
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
-
     const game = new Game(canvas, ctx);
 
     function animate(){
@@ -97,5 +108,8 @@ window.addEventListener("load", () => {
         game.render();
         requestAnimationFrame(animate);
     }
+    
     animate();
+    
+    
 })

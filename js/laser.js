@@ -42,6 +42,14 @@ class PlayerLaser extends Laser {
 class EnemyLaser extends Laser {
     constructor(game, x, y, width, height, speed){
         super(game, x, y, width, height, speed);
+        this.canTouchPlayer = true;
+    }
+
+    removePlayerHealth(){
+        if(this.game.checkCollision(this, this.game.player) && this.canTouchPlayer){
+            this.canTouchPlayer = false; // the laser is already 
+            this.game.player.playerHealth--;   
+        }
     }
 
     update(){
@@ -51,6 +59,7 @@ class EnemyLaser extends Laser {
         if(this.y > this.game.height){
             this.game.enemy1.enemy1Lasers.splice(this.game.enemy1.enemy1Lasers.indexOf(this), 1);
         }
+        this.removePlayerHealth();
     }
 
     draw(){

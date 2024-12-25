@@ -32,6 +32,7 @@ class Player{
         });
     }
     
+    
 
     resize(){
         this.height = this.game.ratio * this.spriteHeight;
@@ -43,9 +44,16 @@ class Player{
     update(){
         this.collisionX = this.x + this.width * 0.5;
         this.collisionY = this.y + this.height * 0.5;
-        
+
         this.lasers.forEach(laser => laser.update());
+        this.checkHealth();
     }
+    checkHealth(){
+        if(this.playerHealth <= 0){
+            this.game.startGame = false;
+        }
+    }
+
     draw(){
         this.game.ctx.drawImage(this.starship, this.x, this.y, this.width, this.height);
         this.game.ctx.beginPath();
