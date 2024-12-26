@@ -92,9 +92,15 @@ class Game{
         this.startGame = false;
         this.ctx.fillStyle = "black";
         this.ctx.fillRect(0, 0, this.width, this.height);
-        this.ctx.fillStyle = "red";
-        this.ctx.font = "50px Arial";
-        this.ctx.fillText("Game Over", this.width / 2 - 150, this.height / 2);
+        this.ctx.fillStyle = "white";
+        this.ctx.font = "80px Arial";
+        this.ctx.fillText("Game Over! Please press 'S' to start again", this.width / 2 - 800, this.height / 2);
+        
+        window.addEventListener("keydown", (e) => {
+            if (e.key.toLowerCase() === "s"){
+                location.reload();
+            }
+        })
     }
 }
 
